@@ -46,29 +46,43 @@ class Program
         }
 
         string srcDir = Path.Combine(rootDir, plugins);
-		string destDir = Path.Combine(oRootDir, output);
+		string destDir = Path.GetFullPath(Path.Combine(oRootDir, output));
 
-		// Example: print parsed values
 		if (!q) Console.WriteLine("Output Directory: " + destDir);
 
 		foreach (var target in targets)
 		{
-			var src = Path.Combine(srcDir, target);
-			if (target.EndsWith(".cs"))
+			var src = Path.GetFullPath(Path.Combine(srcDir, target));
+			if (!src.EndsWith(".cs") && Directory.Exists(src))
 			{
-				if (!q) Console.WriteLine($"Exporting '{target}'");
-				var dest = Path.Combine(destDir, Path.GetFileName(target));
-				File.Delete(dest);
-				File.Copy(src, dest);
+				var dirName = new DirectoryInfo(src).Name;
+				var zipName = dirName + ".cszip";
+                if (!q) Console.WriteLine($"Exporting '{zipName}'");
+                var dest = Path.Combine(destDir, zipName);
+                File.Delete(dest);
+                System.IO.Compression.ZipFile.CreateFromDirectory(src, dest);
 			}
-			else
+            else 
 			{
-				if (!q) Console.WriteLine($"Exporting '{target}.cszip'");
-				var dest = Path.Combine(destDir, Path.GetDirectoryName(target) + ".cszip");
-				File.Delete(dest);
-				System.IO.Compression.ZipFile.CreateFromDirectory(src, dest);
-			}
-		}
+                if (!src.EndsWith(".cs"))
+				{
+					src += ".cs";
+                }
+                var fileName = Path.GetFileName(src);
+                if (File.Exists(src))
+				{
+                    if (!q) Console.WriteLine($"Exporting: {fileName}");
+                    var dest = Path.Combine(destDir, Path.GetFileName(src));
+                    File.Delete(dest);
+                    File.Copy(src, dest);
+				}
+				else
+				{
+                    Console.Error.WriteLine($"Error: Plugin file or folder not found: {src}");
+					Environment.Exit(1);
+                }
+            }
+        }
 	}
 
 	static string? FindExistingParent(string startPath, string folder)
@@ -197,7 +211,7 @@ Description:
 Options:
   -pr, --plugin-root <name>	Root folder name to search up the directory tree for from cwd. (Useful for when running from the Visual Studio debugger.)
   -p,  --plugins <path>		Your development plugins folder relative to the found root otherwise cwd.
-  -sr  --server-root <name> Root folder name to search up the directory tree for from cwd.
+  -sr  --server-root <name>	Root folder name to search up the directory tree for from cwd.
   -s,  --server <path>		Your server's plugins folder relative to the found root otherwise cwd.
 							Deault: server\carbon\plugins
   -h,  --help				Show this help information.
