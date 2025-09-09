@@ -15,7 +15,7 @@ It copies `.cs` files directly and automatically zips folders as `.cszip`, so yo
 git clone https://github.com/ryandurkoske/CarbonPluginExporter.git
 cd CarbonPluginExporter
 dotnet build -c Release
-
+cd ../
 ```
 
 Move the built executable wherever you want.  Makes most since inside your plugin project root directory or wherever your quick access dev scripts go. I like to rename it to 'export.exe'.
