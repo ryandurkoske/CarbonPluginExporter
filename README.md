@@ -28,7 +28,6 @@ dotnet build
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request.
-Ensure that your changes follow consistent code style and add helpful logging where needed.
 
 ---
 
