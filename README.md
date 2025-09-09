@@ -2,8 +2,6 @@
 
 ---
 
-# Carbon Plugin Exporter
-
 **A simple CLI tool to export `.cs` plugin files and folders, from anywhere, to your (Carbon) Rust development server's `plugins` folder.**
 It copies `.cs` files directly and automatically zips folders as `.cszip`, so you dont have to drag, drop or zip them into the plugins folder manually.
 
