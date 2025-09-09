@@ -11,19 +11,13 @@ It copies `.cs` files directly and automatically zips folders as `.cszip`, so yo
 
 ## Installation
 
-1. Clone the repository:
-
 ```bash
 git clone https://github.com/ryandurkoske/CarbonPluginExporter.git
-```
-
-2. Build the project using .NET SDK:
-
-```bash
+cd CarbonPluginExporter
 dotnet build
 ```
 
-3. Move the built executable wherever you want.  Makes most since inside your plugin project root directory or wherever your quick access dev scripts go. I like to rename it to 'export.exe'.
+Move the built executable wherever you want.  Makes most since inside your plugin project root directory or wherever your quick access dev scripts go. I like to rename it to 'export.exe'.
 
 ## Contributing
 
